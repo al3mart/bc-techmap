@@ -1,7 +1,10 @@
 use leptos::prelude::*;
+use leptos::wasm_bindgen::prelude::*;
+use leptos::wasm_bindgen::JsCast;
 
 use crate::components::canvas::Canvas;
 use crate::components::migration_panel::MigrationPanel;
+use crate::components::mobile_view::MobileView;
 use crate::components::ring_view::RingView;
 use crate::data::ecosystem::{load_ecosystems, Ecosystem};
 
@@ -30,6 +33,27 @@ pub fn App() -> impl IntoView {
     let (mouse_pos, set_mouse_pos) = signal((0.0_f64, 0.0_f64));
     let (view_mode, set_view_mode) = signal(ViewMode::Grid);
 
+    // Viewport width signal for mobile detection
+    let (viewport_w, set_viewport_w) = signal(0.0_f64);
+
+    let update_viewport = move || {
+        let w = web_sys::window().unwrap();
+        let width = w.inner_width().unwrap().as_f64().unwrap_or(1200.0);
+        set_viewport_w.set(width);
+    };
+
+    update_viewport();
+
+    let resize_closure = Closure::<dyn Fn()>::new(move || {
+        update_viewport();
+    });
+    let _ = web_sys::window()
+        .unwrap()
+        .add_event_listener_with_callback("resize", resize_closure.as_ref().unchecked_ref());
+    resize_closure.forget();
+
+    let is_mobile = Signal::derive(move || viewport_w.get() < 768.0);
+
     let on_card_click = move |eco_id: String| {
         let current = state.get();
         match current {
@@ -52,9 +76,9 @@ pub fn App() -> impl IntoView {
                 ref source_id,
                 ref dest_id,
             } => {
-                // Only Ring mode needs special dest-switching behavior
+                // Ring mode and mobile need special dest-switching behavior
                 let mode = view_mode.get_untracked();
-                if mode == ViewMode::Ring {
+                if mode == ViewMode::Ring || is_mobile.get_untracked() {
                     if eco_id == *source_id {
                         set_state.set(AppState::Idle);
                     } else if eco_id == *dest_id {
@@ -88,27 +112,53 @@ pub fn App() -> impl IntoView {
     };
 
     let on_close_panel = move || {
-        set_state.set(AppState::Idle);
+        if is_mobile.get_untracked() {
+            // On mobile, closing the panel returns to SourceSelected so the user
+            // can pick another destination without re-selecting the source.
+            if let AppState::ShowResults { ref source_id, .. } = state.get() {
+                set_state.set(AppState::SourceSelected {
+                    source_id: source_id.clone(),
+                });
+            } else {
+                set_state.set(AppState::Idle);
+            }
+        } else {
+            set_state.set(AppState::Idle);
+        }
     };
 
     let hint_text = move || {
         let mode = view_mode.get();
+        let mobile = is_mobile.get();
         match state.get() {
             AppState::Idle => {
-                if mode == ViewMode::Ring {
+                if mobile {
+                    "Tap an ecosystem to start".to_string()
+                } else if mode == ViewMode::Ring {
                     "Click an ecosystem to center it".to_string()
                 } else {
                     "Click an ecosystem to start".to_string()
                 }
             }
             AppState::SourceSelected { ref source_id } => {
-                if mode == ViewMode::Ring {
-                    format!("{} centered — click a ring node to compare", source_id.to_uppercase())
+                if mobile {
+                    format!("Tap destination for {}", source_id.to_uppercase())
+                } else if mode == ViewMode::Ring {
+                    format!(
+                        "{} centered — click a ring node to compare",
+                        source_id.to_uppercase()
+                    )
                 } else {
                     format!("Select destination for {}", source_id.to_uppercase())
                 }
             }
-            AppState::ShowResults { .. } => "ESC to close".to_string(),
+            AppState::ShowResults { .. } => {
+                if mobile {
+                    "Viewing migration path".to_string()
+                } else {
+                    "ESC to close".to_string()
+                }
+            }
         }
     };
 
@@ -148,6 +198,15 @@ pub fn App() -> impl IntoView {
 
     let ecosystems_grid = ecosystems.clone();
     let ecosystems_ring = ecosystems.clone();
+    let ecosystems_mobile = ecosystems.clone();
+
+    let header_title = move || {
+        if is_mobile.get() {
+            "TECH MAP"
+        } else {
+            "BLOCKCHAIN TECH MAP"
+        }
+    };
 
     view! {
         <div
@@ -160,8 +219,10 @@ pub fn App() -> impl IntoView {
             style="outline: none; width: 100%; height: 100%;"
         >
             <div class="header">
-                <span class="header-title">"BLOCKCHAIN TECH MAP"</span>
-                <div class="view-switcher">
+                <span class="header-title">{header_title}</span>
+                <div class="view-switcher" style=move || {
+                    if is_mobile.get() { "display: none;" } else { "" }
+                }>
                     <button
                         class=grid_btn_class
                         on:click=move |_| set_view_mode.set(ViewMode::Grid)
@@ -179,7 +240,15 @@ pub fn App() -> impl IntoView {
             </div>
 
             {move || {
-                if view_mode.get() == ViewMode::Grid {
+                if is_mobile.get() {
+                    view! {
+                        <MobileView
+                            ecosystems=ecosystems_mobile.clone()
+                            state=state
+                            on_card_click=on_card_click
+                        />
+                    }.into_any()
+                } else if view_mode.get() == ViewMode::Grid {
                     view! {
                         <Canvas
                             ecosystems=ecosystems_grid.clone()
@@ -217,6 +286,10 @@ pub fn App() -> impl IntoView {
                     None
                 }
             }}
+
+            <div class="disclaimer">
+                "Disclaimer: The information presented may not be current or accurate. Any decisions should be based on your own independent research."
+            </div>
         </div>
     }
 }
