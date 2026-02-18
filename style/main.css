@@ -686,3 +686,147 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--blue-gray);
 }
+
+/* -- Disclaimer Footer -- */
+.disclaimer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 24px;
+    font-size: 10px;
+    color: var(--danger);
+    background: rgba(244, 243, 242, 0.9);
+    border-top: 1px solid rgba(133, 36, 30, 0.2);
+    text-align: center;
+    z-index: 90;
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+}
+
+/* -- Mobile List View -- */
+.mobile-list {
+    position: fixed;
+    top: 48px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 12px 36px;
+    gap: 8px;
+}
+
+.mobile-card {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.mobile-card:active {
+    border-color: var(--border-hover);
+}
+
+.mobile-card.source-selected {
+    border-left: 3px solid var(--teal);
+    box-shadow: 0 2px 12px var(--accent-glow), 0 0 0 2px var(--accent-subtle);
+}
+
+.mobile-card.dest-selected {
+    border-left: 3px solid var(--cyan);
+    box-shadow: 0 2px 12px rgba(27, 181, 206, 0.25), 0 0 0 2px rgba(27, 181, 206, 0.15);
+}
+
+.mobile-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    gap: 6px;
+}
+
+.mobile-card-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-heading);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mobile-card-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.mobile-card-detail {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* -- Mobile Media Query -- */
+@keyframes slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+@media (max-width: 767px) {
+    html, body {
+        overflow: auto;
+    }
+
+    .header {
+        padding: 0 12px;
+        gap: 8px;
+    }
+
+    .header-title {
+        font-size: 13px;
+        letter-spacing: 1.5px;
+    }
+
+    .migration-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        border-left: none;
+        z-index: 200;
+        animation: slide-up 0.25s ease-out;
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+        padding: 20px 16px;
+    }
+
+    .panel-close {
+        top: 12px;
+        right: 12px;
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .panel-route {
+        font-size: 16px;
+    }
+
+    .difficulty-value {
+        font-size: 24px;
+    }
+
+    .disclaimer {
+        padding: 6px 12px;
+        font-size: 9px;
+    }
+}
