@@ -1,0 +1,349 @@
+# ── Row 1: Ethereum + major L2s ──────────────────────────────────
+
+[[ecosystem]]
+id = "ethereum"
+name = "Ethereum"
+short = "ETH"
+languages = ["Solidity", "Vyper", "Huff"]
+vm = "EVM"
+transaction_model = "account"
+evm_compatibility = "native"
+deployment_options = ["contract", "rollup"]
+chain_layer = "L1"
+l2_maturity = 5
+consensus = "PoS (Gasper)"
+tooling_maturity = 5
+tooling = ["Foundry", "Hardhat", "Remix", "OpenZeppelin", "viem", "wagmi", "Tenderly", "Slither"]
+doc_quality = 4
+ecosystem_funding = 5
+position = [80, 60]
+
+[[ecosystem]]
+id = "arbitrum"
+name = "Arbitrum"
+short = "ARB"
+languages = ["Solidity", "Vyper"]
+vm = "EVM"
+transaction_model = "account"
+evm_compatibility = "native"
+deployment_options = ["contract"]
+chain_layer = "ETH L2"
+l2_maturity = 2
+consensus = "Optimistic Rollup (ETH-secured)"
+tooling_maturity = 5
+tooling = ["Foundry", "Hardhat", "Remix", "OpenZeppelin", "viem", "wagmi", "Arbiscan", "Stylus"]
+doc_quality = 4
+ecosystem_funding = 4
+position = [290, 60]
+
+[[ecosystem]]
+id = "optimism"
+name = "Optimism"
+short = "OP"
+languages = ["Solidity", "Vyper"]
+vm = "EVM"
+transaction_model = "account"
+evm_compatibility = "native"
+deployment_options = ["contract", "rollup"]
+chain_layer = "ETH L2"
+l2_maturity = 3
+consensus = "Optimistic Rollup (ETH-secured)"
+tooling_maturity = 5
+tooling = ["Foundry", "Hardhat", "OP Stack", "OpenZeppelin", "viem", "wagmi", "Optimistic Etherscan"]
+doc_quality = 4
+ecosystem_funding = 5
+position = [500, 60]
+
+[[ecosystem]]
+id = "base"
+name = "Base"
+short = "BASE"
+languages = ["Solidity", "Vyper"]
+vm = "EVM"
+transaction_model = "account"
+evm_compatibility = "native"
+deployment_options = ["contract"]
+chain_layer = "ETH L2"
+l2_maturity = 1
+consensus = "Optimistic Rollup (ETH-secured)"
+tooling_maturity = 5
+tooling = ["Foundry", "Hardhat", "OpenZeppelin", "viem", "wagmi", "Basescan", "OnchainKit"]
+doc_quality = 4
+ecosystem_funding = 2
+position = [710, 60]
+
+[[ecosystem]]
+id = "starknet"
+name = "Starknet"
+short = "STRK"
+languages = ["Cairo"]
+vm = "CairoVM (STARK)"
+transaction_model = "account"
+evm_compatibility = "none"
+deployment_options = ["contract"]
+chain_layer = "ETH L2"
+l2_maturity = 1
+consensus = "Validity Rollup (ETH-secured)"
+tooling_maturity = 3
+tooling = ["Scarb", "Starkli", "starknet.js", "starknet-foundry", "Voyager", "Blockchain Explorer"]
+doc_quality = 3
+ecosystem_funding = 3
+position = [920, 60]
+
+# ── Row 2: Alt L1s (Rust/Wasm/EVM family) ───────────────────────
+
+[[ecosystem]]
+id = "solana"
+name = "Solana"
+short = "SOL"
+languages = ["Rust", "C"]
+vm = "SVM (sBPF)"
+transaction_model = "account"
+evm_compatibility = "none"
+deployment_options = ["contract"]
+chain_layer = "L1"
+l2_maturity = 1
+consensus = "PoH + Tower BFT"
+tooling_maturity = 4
+tooling = ["Anchor", "Solana CLI", "@solana/kit", "Codama", "Metaplex", "Pyth", "Helius", "litesvm"]
+doc_quality = 3
+ecosystem_funding = 4
+position = [80, 260]
+
+[[ecosystem]]
+id = "polkadot"
+name = "Polkadot"
+short = "DOT"
+languages = ["Rust", "Solidity"]
+vm = "PolkaVM/EVM"
+transaction_model = "account"
+evm_compatibility = "supported"
+deployment_options = ["appchain", "contract"]
+chain_layer = "L1"
+l2_maturity = 4
+consensus = "BABE+GRANDPA/NPoS"
+tooling_maturity = 3
+tooling = ["Polkadot SDK", "Pop CLI", "Zombienet", "Chopsticks", "PAPI", "subxt", "polkadot.js", "Foundry", "Paraspell"]
+doc_quality = 3
+ecosystem_funding = 4
+position = [290, 260]
+
+[ecosystem.deploy_modes.appchain]
+languages = ["Rust"]
+
+[ecosystem.deploy_modes.contract]
+languages = ["Solidity"]
+
+[[ecosystem]]
+id = "cosmos"
+name = "Cosmos"
+short = "ATOM"
+languages = ["Go", "Rust", "Solidity"]
+vm = "CosmWasm"
+transaction_model = "account"
+evm_compatibility = "supported"
+deployment_options = ["appchain", "contract"]
+chain_layer = "L1"
+l2_maturity = 3
+consensus = "CometBFT"
+tooling_maturity = 3
+tooling = ["Cosmos SDK", "CometBFT", "Ignite CLI", "CosmJS", "CosmWasm", "IBC-Go", "Hermes", "Interchaintest", "Cosmovisor"]
+doc_quality = 3
+ecosystem_funding = 2
+position = [500, 260]
+
+[ecosystem.deploy_modes.appchain]
+languages = ["Go"]
+
+[ecosystem.deploy_modes.contract]
+languages = ["Rust", "Solidity"]
+
+[[ecosystem]]
+id = "near"
+name = "NEAR"
+short = "NEAR"
+languages = ["Rust", "TypeScript"]
+vm = "NearVM"
+transaction_model = "account"
+evm_compatibility = "supported"
+deployment_options = ["contract"]
+chain_layer = "L1"
+l2_maturity = 3
+consensus = "Nightshade (sharded PoS)"
+tooling_maturity = 3
+tooling = ["near-sdk-rs", "near-sdk-js", "near-cli-rs", "cargo-near", "near-api-js", "near-api-rs", "NEAR Explorer", "fastnear"]
+doc_quality = 3
+ecosystem_funding = 3
+position = [710, 260]
+
+[[ecosystem]]
+id = "avalanche"
+name = "Avalanche"
+short = "AVAX"
+languages = ["Solidity", "Vyper", "Go", "Rust"]
+vm = "EVM / Subnet-EVM"
+transaction_model = "account"
+evm_compatibility = "native"
+deployment_options = ["appchain", "contract"]
+chain_layer = "L1"
+l2_maturity = 4
+consensus = "Snowman (Snow*)"
+tooling_maturity = 4
+tooling = ["Hardhat", "Foundry", "AvalancheJS", "Avalanche CLI", "AvaCloud", "Subnet-EVM", "HyperSDK", "viem", "ICM/Teleporter"]
+doc_quality = 3
+ecosystem_funding = 4
+position = [920, 260]
+
+[ecosystem.deploy_modes.appchain]
+languages = ["Go", "Rust"]
+
+[ecosystem.deploy_modes.contract]
+languages = ["Solidity", "Vyper"]
+
+# ── Row 3: Move chains, unique architectures ────────────────────
+
+[[ecosystem]]
+id = "sui"
+name = "Sui"
+short = "SUI"
+languages = ["Sui Move"]
+vm = "Sui MoveVM"
+transaction_model = "object-centric"
+evm_compatibility = "none"
+deployment_options = ["contract"]
+chain_layer = "L1"
+l2_maturity = 1
+consensus = "Mysticeti v2 (DAG-BFT)"
+tooling_maturity = 3
+tooling = ["Sui CLI", "Sui TypeScript SDK", "Sui Rust SDK", "Move Analyzer", "Sui Move Prover", "Sui Explorer", "GraphQL RPC", "Walrus"]
+doc_quality = 4
+ecosystem_funding = 3
+position = [80, 460]
+
+[[ecosystem]]
+id = "aptos"
+name = "Aptos"
+short = "APT"
+languages = ["Aptos Move"]
+vm = "MoveVM + Block-STM"
+transaction_model = "account-resource"
+evm_compatibility = "none"
+deployment_options = ["contract"]
+chain_layer = "L1"
+l2_maturity = 1
+consensus = "AptosBFT/Raptr"
+tooling_maturity = 3
+tooling = ["Aptos CLI", "Aptos TypeScript SDK", "Aptos Python SDK", "Aptos Rust SDK", "Move Prover", "Move VS Code Extension", "Aptos Explorer", "Aptos Indexer"]
+doc_quality = 3
+ecosystem_funding = 3
+position = [290, 460]
+
+[[ecosystem]]
+id = "ton"
+name = "TON"
+short = "TON"
+languages = ["Tolk", "Tact", "FunC (legacy)"]
+vm = "TVM"
+transaction_model = "actor"
+evm_compatibility = "none"
+deployment_options = ["contract"]
+chain_layer = "L1"
+l2_maturity = 2
+consensus = "Catchain BFT PoS"
+tooling_maturity = 3
+tooling = ["Blueprint", "TON Sandbox", "TonConnect", "ton-core", "Toncenter API", "TonAPI", "ton-language-server", "Tonviewer"]
+doc_quality = 3
+ecosystem_funding = 4
+position = [500, 460]
+
+[[ecosystem]]
+id = "zksync"
+name = "zkSync Era"
+short = "ZK"
+languages = ["Solidity", "Vyper"]
+vm = "zkEVM"
+transaction_model = "account"
+evm_compatibility = "native"
+deployment_options = ["contract"]
+chain_layer = "ETH L2"
+l2_maturity = 1
+consensus = "ZK Rollup (ETH-secured)"
+tooling_maturity = 4
+tooling = ["Hardhat (zkSync plugin)", "Foundry (zkSync)", "ZK Stack", "zksync-ethers", "Block Explorer", "zkSync CLI"]
+doc_quality = 3
+ecosystem_funding = 3
+position = [710, 460]
+
+[[ecosystem]]
+id = "stellar"
+name = "Stellar"
+short = "XLM"
+languages = ["Rust", "AssemblyScript"]
+vm = "Soroban (Wasmi)"
+transaction_model = "account"
+evm_compatibility = "none"
+deployment_options = ["contract"]
+chain_layer = "L1"
+l2_maturity = 1
+consensus = "SCP (FBA)"
+tooling_maturity = 3
+tooling = ["stellar-cli", "soroban-sdk", "@stellar/stellar-sdk", "py-stellar-base", "stellar-rpc", "Stellar Lab", "Freighter", "Horizon"]
+doc_quality = 3
+ecosystem_funding = 4
+position = [920, 460]
+
+# ── Row 4: UTXO chains, DA layer ─────────────────────────────────
+
+[[ecosystem]]
+id = "cardano"
+name = "Cardano"
+short = "ADA"
+languages = ["Aiken", "Plinth", "OpShin"]
+vm = "Plutus VM (UPLC)"
+transaction_model = "eUTXO"
+evm_compatibility = "none"
+deployment_options = ["contract"]
+chain_layer = "L1"
+l2_maturity = 2
+consensus = "Ouroboros Praos"
+tooling_maturity = 3
+tooling = ["Aiken", "Lucid", "Mesh", "cardano-cli", "Blockfrost", "Cardano Explorer", "Demeter.run"]
+doc_quality = 3
+ecosystem_funding = 5
+position = [80, 660]
+
+[[ecosystem]]
+id = "midnight"
+name = "Midnight"
+short = "MNGHT"
+languages = ["Compact", "TypeScript"]
+vm = "ZK Circuit VM"
+transaction_model = "eUTXO"
+evm_compatibility = "none"
+deployment_options = ["contract"]
+chain_layer = "L1"
+l2_maturity = 1
+consensus = "PoS (Cardano partner chain)"
+tooling_maturity = 2
+tooling = ["Midnight Lace", "Midnight.js", "Compact Compiler", "DApp Connector"]
+doc_quality = 3
+ecosystem_funding = 3
+position = [290, 660]
+
+[[ecosystem]]
+id = "celestia"
+name = "Celestia"
+short = "TIA"
+languages = ["Go", "Rust", "Solidity"]
+vm = "N/A (DA layer)"
+transaction_model = "account"
+evm_compatibility = "none"
+deployment_options = ["rollup"]
+chain_layer = "L1"
+l2_maturity = 1
+consensus = "CometBFT (single-slot finality)"
+tooling_maturity = 3
+tooling = ["celestia-node", "celestia-app", "Rollkit", "OP Stack + Celestia", "Blobstream", "Node API"]
+doc_quality = 4
+ecosystem_funding = 3
+position = [500, 660]

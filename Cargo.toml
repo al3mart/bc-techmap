@@ -1,0 +1,26 @@
+[package]
+name = "bc-techmap"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+leptos = { version = "0.8", features = ["csr"] }
+console_error_panic_hook = "0.1"
+web-sys = { version = "0.3", features = [
+    "DomRect",
+    "HtmlElement",
+    "MouseEvent",
+    "KeyboardEvent",
+    "SvgElement",
+] }
+
+[build-dependencies]
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
+
+[profile.release]
+opt-level = 'z'
+codegen-units = 1
+lto = true
+panic = "abort"
+strip = true
