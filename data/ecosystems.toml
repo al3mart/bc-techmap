@@ -347,3 +347,24 @@ tooling = ["celestia-node", "celestia-app", "Rollkit", "OP Stack + Celestia", "B
 doc_quality = 4
 ecosystem_funding = 3
 position = [500, 660]
+
+[[ecosystem]]
+id = "xrpl"
+name = "XRP Ledger"
+short = "XRP"
+languages = ["JavaScript"]
+vm = "XRPL Native"
+transaction_model = "account"
+evm_compatibility = "none"
+deployment_options = ["sidechain"]
+chain_layer = "L1"
+l2_maturity = 1
+consensus = "Federated BFT (UNL)"
+tooling_maturity = 2
+tooling = ["xrpl.js", "xrpl-py", "xrpl4j", "xrpl-go", "XRPL Explorer", "Xaman", "GemWallet", "Hooks Builder"]
+doc_quality = 3
+ecosystem_funding = 3
+position = [710, 660]
+
+[ecosystem.deploy_modes.sidechain]
+languages = ["Solidity"]

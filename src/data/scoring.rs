@@ -92,6 +92,7 @@ fn vm_group(vm: &str) -> &str {
         "Plutus VM (UPLC)" => "plutus",
         "ZK Circuit VM" => "zk-circuit",
         "N/A (DA layer)" => "da-layer",
+        "XRPL Native" => "xrpl-native",
         _ => "other",
     }
 }
@@ -117,6 +118,11 @@ fn vm_distance(src: &Ecosystem, dst: &Ecosystem) -> f64 {
 
     // DA layer has no VM — always a big gap
     if sg == "da-layer" || dg == "da-layer" {
+        return 1.0;
+    }
+
+    // XRPL has no general-purpose VM — always a big gap
+    if sg == "xrpl-native" || dg == "xrpl-native" {
         return 1.0;
     }
 
@@ -205,15 +211,25 @@ fn deploy_model_distance(src: &Ecosystem, dst: &Ecosystem) -> f64 {
         return 0.0;
     }
 
+    let has = |set: &[&str], opt: &str| set.contains(&opt);
+
+    // Sidechains are penalized heavily: separate validator set, bridge
+    // trust assumptions, not a native solution. Worse than appchain/rollup
+    // transitions (0.7) since L2s and appchains inherit or extend L1 security.
+    if (has(&src_set, "sidechain") && has(&dst_set, "contract"))
+        || (has(&src_set, "contract") && has(&dst_set, "sidechain"))
+    {
+        return 0.8;
+    }
+
+    if has(&src_set, "sidechain") || has(&dst_set, "sidechain") {
+        return 0.9;
+    }
+
     // contract-only ↔ appchain-only is a big shift
     // contract ↔ rollup is moderate
-    let src_has_contract = src_set.contains(&"contract");
-    let dst_has_contract = dst_set.contains(&"contract");
-    let src_has_appchain = src_set.contains(&"appchain");
-    let dst_has_appchain = dst_set.contains(&"appchain");
-
-    if (src_has_contract && dst_has_appchain && !dst_has_contract)
-        || (src_has_appchain && dst_has_contract && !dst_has_appchain)
+    if (has(&src_set, "contract") && has(&dst_set, "appchain") && !has(&dst_set, "contract"))
+        || (has(&src_set, "appchain") && has(&dst_set, "contract") && !has(&dst_set, "appchain"))
     {
         return 0.7;
     }
